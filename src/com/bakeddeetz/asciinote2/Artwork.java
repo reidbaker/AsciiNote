@@ -4,36 +4,29 @@ package com.bakeddeetz.asciinote2;
 
 
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
-
-
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
 public class Artwork {
-	private static String sourceFile, outputFile;
+	
 	private static Bitmap image;
-	private static Color color;
 	private static FileWriter fw;
 	private static PrintWriter out;
 
-	public static void main(String[] args) {
-		// Instantiate the command line input scanner
-		Scanner in = new Scanner(System.in);
-		image = BitmapFactory.decodeFile("trollface_resampled");
-		// Prompt the user for input
-		System.out.println("Start by choosing the image's file name");
-		sourceFile = in.nextLine();
+	public int convertImage(String sourceFile, String outputFile) {
+		
+		
+		//image = BitmapFactory.decodeFile("trollface_resampled.png");
+		
+		
 		getImage(sourceFile);
-		System.out.println("Next, choose the output's file name");
-		outputFile = in.nextLine();
 		getWriter(outputFile);
+		
 		System.out.println("Starting to generate text field now. File will be output to " + outputFile);
 
 		//Getting the image's height and width gives us a range to work with for the 
@@ -75,6 +68,7 @@ public class Artwork {
 		out.close();
 
 		System.out.println("Done!");
+		return 0;
 	}
 
 	//Helper method for getting the image read in from the text file

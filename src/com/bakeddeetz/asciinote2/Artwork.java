@@ -6,8 +6,11 @@ package com.bakeddeetz.asciinote2;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,13 +21,13 @@ public class Artwork {
 	private static FileWriter fw;
 	private static PrintWriter out;
 
-	public int convertImage(String sourceFile, String outputFile) {
+	public Bitmap convertImage(String sourceFile, String outputFile, Context context) {
 		
 		
 		//image = BitmapFactory.decodeFile("trollface_resampled.png");
 		
 		
-		getImage(sourceFile);
+		getImage(sourceFile, context);
 		getWriter(outputFile);
 		
 		System.out.println("Starting to generate text field now. File will be output to " + outputFile);
@@ -66,27 +69,40 @@ public class Artwork {
 		}
 		// Close the PrintWriter
 		out.close();
-
+		
 		System.out.println("Done!");
-		return 0;
+		return image;
 	}
 
 	//Helper method for getting the image read in from the text file
-	public static void getImage(String sourceFile) {
-		
-			image = BitmapFactory.decodeFile(sourceFile);
+	public static void getImage(String sourceFile,Context context) {
+		AssetManager assetManager = context.getAssets();
+
+	    InputStream istr;
+		try {
+			istr = assetManager.open(sourceFile);
+			image = BitmapFactory.decodeStream(istr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 		
 	}
 
 	//Helper method for getting the writer set up for writing to a file
 	//(filename specified in the command line)
 	public static void getWriter(String outputFile) {
-		try {
-			fw = new FileWriter(outputFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		out = new PrintWriter(fw);
+		
+		
+			try {
+				fw = new FileWriter(outputFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+			out = new PrintWriter(fw);
 	}
 
 	//Helper method for printing the ASCII characters to the text file. I made

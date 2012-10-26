@@ -1,5 +1,7 @@
 package com.bakeddeetz.asciinote2;
 
+import com.bakeddeetz.asciinote.R;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;

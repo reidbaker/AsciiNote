@@ -43,9 +43,9 @@ public class MainActivity extends Activity {
  
 				ImageView Iv = (ImageView)findViewById(R.id.imageView1);
 			    Artwork artwork = new Artwork();
-			    String outputLoc = "images/trollface_resampled.png";
 			    String asciiTextLoc = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/troll.txt";
-			    Iv.setImageBitmap(artwork.convertImage(outputLoc, asciiTextLoc,	context));
+			    String outputLoc = "/storage/sdcard0/Download/trollface_resampled.png";
+			    Iv.setImageBitmap(artwork.convertImage(asciiTextLoc, outputLoc, context));
  
 			}
 		

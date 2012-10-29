@@ -19,7 +19,6 @@ import android.util.Log;
 
 public class Artwork {
 	private static final String TAG = "Artwork";
-	private static Bitmap image;
 	private static FileWriter fw;
 
 	public Bitmap convertImage(String sourceFile, String outputFile, Context context) {
@@ -28,7 +27,7 @@ public class Artwork {
 		//image = BitmapFactory.decodeFile("trollface_resampled.png");
 
 
-		getImage(sourceFile, context);
+		Bitmap image = getImage(sourceFile, context);
 		PrintWriter out = getWriter(outputFile);
 
 		Log.d(TAG, "Starting to generate text field now. File will be output to " + outputFile);
@@ -76,17 +75,18 @@ public class Artwork {
 	}
 
 	//Helper method for getting the image read in from the text file
-	public static void getImage(String sourceFile,Context context) {
+	public Bitmap getImage(String sourceFile,Context context) {
 		AssetManager assetManager = context.getAssets();
 
 	    InputStream istr;
 		try {
 			istr = assetManager.open(sourceFile);
-			image = BitmapFactory.decodeStream(istr);
+			return BitmapFactory.decodeStream(istr);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, e.getMessage());
 		}
+		return null;
 
 
 	}

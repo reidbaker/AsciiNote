@@ -14,25 +14,26 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Environment;
+import android.util.Log;
 
 public class Artwork {
-	
+	private static final String TAG = "Artwork";
 	private static Bitmap image;
 	private static FileWriter fw;
-	private static PrintWriter out;
 
 	public Bitmap convertImage(String sourceFile, String outputFile, Context context) {
-		
-		
-		//image = BitmapFactory.decodeFile("trollface_resampled.png");
-		
-		
-		getImage(sourceFile, context);
-		getWriter(outputFile);
-		
-		System.out.println("Starting to generate text field now. File will be output to " + outputFile);
 
-		//Getting the image's height and width gives us a range to work with for the 
+
+		//image = BitmapFactory.decodeFile("trollface_resampled.png");
+
+
+		getImage(sourceFile, context);
+		PrintWriter out = getWriter(outputFile);
+
+		Log.d(TAG, "Starting to generate text field now. File will be output to " + outputFile);
+
+		//Getting the image's height and width gives us a range to work with for the
 		int width = image.getWidth();
 		int height = image.getHeight();
 
@@ -62,15 +63,15 @@ public class Artwork {
 					output = "@";
 
 				// Print the line of pixels now converted to ASCII characters
-				print(output + " ");
+				print(output + " ", out);
 			}
 			// Print out a new line for the next line of pixels to be checked
 			out.println();
 		}
 		// Close the PrintWriter
 		out.close();
-		
-		System.out.println("Done!");
+
+		Log.d(TAG, "Done!");
 		return image;
 	}
 
@@ -86,29 +87,40 @@ public class Artwork {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
-		
+
+
 	}
 
 	//Helper method for getting the writer set up for writing to a file
 	//(filename specified in the command line)
-	public static void getWriter(String outputFile) {
-		
-		
+	public PrintWriter getWriter(String outputFile) {
+			String mountError = "External SD card not mounted";
+			if(!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+				Log.d(TAG, mountError);
+			}
+			else{
+				Log.d(TAG, "mounted sucessfully");
+			}
+
+			PrintWriter pw;
+			Log.d(TAG, outputFile);
+
 			try {
-				fw = new FileWriter(outputFile);
+				fw = new FileWriter(outputFile, true);
+				fw.write("hello");
+				fw.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(TAG, e.getMessage());
 			}
-		
-			out = new PrintWriter(fw);
+
+			return new PrintWriter(fw);
 	}
 
 	//Helper method for printing the ASCII characters to the text file. I made
 	//a helper method this way because it made it easier to test with
-	public static void print(String string) {
-		out.print(string);
+	public static void print(String string, PrintWriter pw) {
+		pw.print(string);
 	}
 
 }

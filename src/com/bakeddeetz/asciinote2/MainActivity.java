@@ -16,8 +16,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-       
+
         addListenerOnButton(this);
 
         
@@ -44,8 +43,9 @@ public class MainActivity extends Activity {
  
 				ImageView Iv = (ImageView)findViewById(R.id.imageView1);
 			    Artwork artwork = new Artwork();
-			   
-			    Iv.setImageBitmap(artwork.convertImage("images/trollface_resampled.png",  Environment.getExternalStorageDirectory().getAbsolutePath()+ "/troll.txt",context));
+			    String outputLoc = "images/trollface_resampled.png";
+			    String asciiTextLoc = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/troll.txt";
+			    Iv.setImageBitmap(artwork.convertImage(outputLoc, asciiTextLoc,	context));
  
 			}
 		
